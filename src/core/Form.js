@@ -4,7 +4,7 @@ class Form {
 
     constructor(data) {
         this.originalData = data
-        this.errors = new Errors()
+        this.errors       = new Errors()
 
         for (let field in data) {
             this[field] = data[field]

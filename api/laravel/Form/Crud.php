@@ -1,11 +1,11 @@
 <?php
 
-namespace Form;
+namespace Paper\Form;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class DbCrud
+class Crud
 {
 
     private $table;
@@ -15,9 +15,8 @@ class DbCrud
         $this->table = $table;
     }
 
-    function create(Request $request)
+    function create($data)
     {
-        $data = $request->except('_token');
         $r = DB::table($this->table)->insertGetId($data);
         return $r;
     }

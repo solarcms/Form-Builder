@@ -3,3 +3,5 @@ import axios from 'axios'
 
 window.Vue   = Vue
 window.axios = axios
+
+Vue.config.productionTip = false

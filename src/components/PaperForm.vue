@@ -1,16 +1,16 @@
 <template>
     <div class="container">
         <form @submit.prevent="onSubmit()" @keydown="form.errors.clear($event.target.name)">
-            <div class="form-group">
-                <input type="text" name="name" placeholder="Name" v-model="form.name">
-                <span class="help-block text-error" v-if="form.errors.has('name')"
-                      v-text="form.errors.get('name')"></span>
-            </div>
-            <div class="form-group">
-                <textarea name="description" placeholder="Description" class="form-control"
-                          v-model="form.description"></textarea>
-                <span class="help-block text-error" v-if="form.errors.has('description')"
-                      v-text="form.errors.get('description')"></span>
+            <div v-for="s in schema">
+                <div v-if="s.type == 'text'">
+                    <input type="text" :name="s.model" :placeholder="s.placeholder" v-model="form[s.model]">
+                </div>
+                <div v-if="s.type == 'checkbox'">
+                    <input type="checkbox" :name="s.model" :placeholder="s.placeholder" v-model="form[s.model]">
+                </div>
+                <span v-if="form.errors.has('title')"
+                      v-text="form.errors.get('title')">
+                </span>
             </div>
             <hr>
             <button type="submit" class="btn btn-default" :disabled="form.errors.any()">Save</button>
@@ -21,18 +21,23 @@
 <script>
     import Form from '../core/Form'
     export default {
-        data: () => {
+        data: function () {
             return {
+                schema: formConfig.schema,
                 form: new Form({
-                    name: '',
-                    description: ''
+                    title: '',
+                    is_active: ''
                 })
             }
         },
 
+        created: () => {
+            console.log(this.config);
+        },
+
         methods: {
             onSubmit(){
-                let url = '/api/project/save'
+                let url = '/paper/create'
                 this.form.submit('post', url)
                 this.form.submitHook('post', url)
                     .then(data => console.log(data))
@@ -41,10 +46,5 @@
         }
     }
 </script>
-
-<style lang="sass">
-
-</style>
-
 
 
